@@ -7,6 +7,7 @@ import {
 import { DataQueryStates } from '@/components/condition'
 import { GuestsCalendarView } from '@/components/guests/GuestsCalendarView'
 import { GuestsTable } from '@/components/guests/GuestsTable'
+import { NewGuestDrawer } from '@/components/guests/NewGuestDrawer'
 import { GUEST_STATUS_FILTERS, QUERY_KEYS } from '@/constants'
 import type {
   GuestSortDirection,
@@ -14,6 +15,7 @@ import type {
   GuestStatus,
 } from '@/features/guests/types/guest.types'
 import { fetchGuests } from '@/services/guests/fetch-guests.service.ts'
+import { trackEvent } from '@/utils/analytics'
 
 function toGuestStatuses(filterIds: string[]): GuestStatus[] {
   if (filterIds.length === 0 || filterIds.includes('all')) {
@@ -28,6 +30,7 @@ export function GuestsPage() {
   const [view, setView] = useState<'list' | 'calendar'>('calendar')
   const [sortBy, setSortBy] = useState<GuestSortKey>('createdAt')
   const [sortDirection, setSortDirection] = useState<GuestSortDirection>('desc')
+  const [newGuestOpen, setNewGuestOpen] = useState(false)
 
   const statuses = useMemo(
     () => toGuestStatuses(selectedFilters),
@@ -65,6 +68,10 @@ export function GuestsPage() {
     <DarkPageShell
       title="Guests"
       actionLabel="+ New guest"
+      onActionClick={() => {
+        setNewGuestOpen(true)
+        trackEvent('guest.new_clicked')
+      }}
       filters={GUEST_STATUS_FILTERS}
       filterMultiple
       selectedFilters={selectedFilters}
@@ -102,6 +109,17 @@ export function GuestsPage() {
           <GuestsCalendarView guests={data.guests} />
         ) : null}
       </DataQueryStates>
+
+      <NewGuestDrawer
+        open={newGuestOpen}
+        onClose={() => setNewGuestOpen(false)}
+        onCreated={() => {
+          setView('list')
+          setSelectedFilters(['all'])
+          setSortBy('createdAt')
+          setSortDirection('desc')
+        }}
+      />
     </DarkPageShell>
   )
 }

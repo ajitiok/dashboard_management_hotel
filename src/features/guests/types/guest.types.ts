@@ -47,3 +47,21 @@ export type GuestsQueryParams = {
 export type GuestsData = {
   guests: Guest[]
 }
+
+export type CreateGuestInput = {
+  name: string
+  email: string
+  phone: string
+  roomNumber: string
+  roomType: string
+  nationality: string
+  checkIn: string
+  checkOut: string
+}
+
+export const GUEST_ROOM_TYPES = [
+  'Single',
+  'Double',
+  'Deluxe',
+  'Suite',
+] as const

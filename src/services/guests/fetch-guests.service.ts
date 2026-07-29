@@ -5,7 +5,7 @@ import type {
   GuestsData,
   GuestsQueryParams,
 } from '@/features/guests/types/guest.types'
-import { guestsMock } from '@/mocks/guests.mock'
+import { getGuestsStore } from '@/mocks/guests.store'
 import {
   assertMockApiOk,
 } from '@/utils/mock-api'
@@ -60,7 +60,7 @@ export async function fetchGuests(
     sortDirection = 'desc',
   } = params
 
-  let guests = [...guestsMock]
+  let guests = [...getGuestsStore()]
 
   if (statuses.length > 0) {
     const selected = new Set(statuses)
