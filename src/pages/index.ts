@@ -1,0 +1,8 @@
+export { DashboardPage } from './DashboardPage'
+export { GuestsPage } from './GuestsPage'
+export { OrdersPage } from './OrdersPage'
+export { RoomsPage } from './RoomsPage'
+export { RoomDetailPage } from './RoomDetailPage'
+export { RestaurantPage } from './RestaurantPage'
+export { LoginPage } from './LoginPage'
+export { NotFoundPage } from './NotFoundPage'
